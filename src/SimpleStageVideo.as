@@ -1,6 +1,9 @@
 package
 {
+	import com.cxria.video.components.ConsoleComponent;
+	import com.cxria.video.components.MonitorComponent;
 	import com.cxria.video.components.UrlComponent;
+	import com.cxria.video.util.str.StringUtils;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -12,6 +15,7 @@ package
 	import flash.media.Video;
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
+	import flash.utils.Timer;
 	
 	//[SWF(backgroundColor="#000000")]
 	public class SimpleStageVideo extends Sprite
@@ -37,6 +41,8 @@ package
 		public function loadComponents():void
 		{
 			UrlComponent.load(stage);
+			ConsoleComponent.load(stage);
+			MonitorComponent.load();
 		}
 		
 		/**
@@ -50,18 +56,15 @@ package
 		private function onStageVideoState(e:StageVideoAvailabilityEvent):void
 		{
 			var on:Boolean = e.availability == StageVideoAvailability.AVAILABLE;
-			trace("StageVideoAvailability : " + on);
+			ConsoleComponent.log("StageVideoAvailability : " + on);
+			nc = new NetConnection();
+			nc.client = {};
 			if(on){
-				nc = new NetConnection();
-				nc.client = {};
 				nc.addEventListener(NetStatusEvent.NET_STATUS, onStageVideoNetStatus);
-				nc.connect(this.url);
 			}else{
-				nc = new NetConnection();
-				nc.client = {};
 				nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
-				nc.connect(this.url);
 			}
+			UrlComponent.setNetConnection(nc);
 		}
 		
 		/**
@@ -69,10 +72,17 @@ package
 		 */
 		private function onNetStatus(event:NetStatusEvent):void  
 		{  
+			ConsoleComponent.log(event.info.code);
+			ConsoleComponent.log(JSON.stringify(event.info));
 			trace("event.info.level: " + event.info.level + "\n", "event.info.code: " + event.info.code);
 			var code:String = event.info.code.split(".")[2];
 			if(code == "Success"){
-				playVideo(nc,this.streamName);
+				var streamName:String = UrlComponent.streamText.text;
+				if(StringUtils.isEmpty(streamName)){
+					ConsoleComponent.log("StreamName is empty");
+					return;
+				}
+				playVideo(nc,streamName);
 			}
 		}
 		
@@ -95,10 +105,16 @@ package
 		 */
 		private function onStageVideoNetStatus(event:NetStatusEvent):void  
 		{  
+			ConsoleComponent.log(event.info.code);
 			trace("event.info.level: " + event.info.level + "\n", "event.info.code: " + event.info.code);
 			var code:String = event.info.code.split(".")[2];
 			if(code == "Success"){
-				playStageVideo(nc,this.streamName);
+				var streamName:String = UrlComponent.streamText.text;
+				if(StringUtils.isEmpty(streamName)){
+					ConsoleComponent.log("StreamName is empty");
+					return;
+				}
+				playStageVideo(nc,streamName);
 			}
 		}
 		
@@ -114,6 +130,9 @@ package
 			sv.attachNetStream(ns);
 			sv.viewPort = new Rectangle(-130,0,500,281);
 			ns.play(streamName);
+			//监控
+			MonitorComponent.setNetStream(ns);
+			MonitorComponent.timer.start();
 		}
 	}
 }

@@ -1,8 +1,10 @@
 package com.cxria.video.base
 {
 	import flash.text.TextField;
+	import flash.utils.Timer;
 	
 	import fl.controls.Button;
+	import fl.controls.TextArea;
 
 	public class BaseComponent
 	{
@@ -21,6 +23,22 @@ package com.cxria.video.base
 		public static function newBtn():Button
 		{
 			return new Button();
+		}
+		
+		/**
+		 * 实例化TextArea
+		 */
+		public static function newTextarea():TextArea
+		{
+			return new TextArea();
+		}
+		
+		/**
+		 * 实例化定时器
+		 */
+		public static function newTimer(time:Number):Timer
+		{
+			return new Timer(time);
 		}
 	}
 }

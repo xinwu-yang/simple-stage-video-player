@@ -1,8 +1,11 @@
 package com.cxria.video.components
 {
 	import com.cxria.video.base.BaseComponent;
+	import com.cxria.video.util.str.StringUtils;
 	
 	import flash.display.Stage;
+	import flash.events.MouseEvent;
+	import flash.net.NetConnection;
 	import flash.text.TextField;
 	import flash.text.TextFieldType;
 	
@@ -14,11 +17,13 @@ package com.cxria.video.components
 	public class UrlComponent extends BaseComponent
 	{
 		public static var urlText:TextField;
-		public static var labelText:TextField;
+		public static var streamText:TextField;
+		public static var labelText:TextField; 
 		public static var urlBtn:Button;
+		public static var nc:NetConnection;
 		
 		/**
-		 * 初始化输入框 
+		 * 初始化url输入框 
 		 */
 		private static function newUrlTextField():TextField
 		{
@@ -30,7 +35,24 @@ package com.cxria.video.components
 			urlText.width = 180;
 			urlText.x=-60;
 			urlText.y=290;
+			urlText.text = "rtmp://p.cxria.com/live";
 			return urlText;
+		}
+		
+		/**
+		 * 初始化流名输入框 
+		 */
+		private static function newStreamTextField():TextField
+		{
+			streamText = newTextField();
+			streamText.border = true; 
+			streamText.type = TextFieldType.INPUT;
+			streamText.restrict = null;
+			streamText.height = 20;
+			streamText.width = 40;
+			streamText.x = 125;
+			streamText.y =290;
+			return streamText;
 		}
 		
 		/**
@@ -53,11 +75,24 @@ package com.cxria.video.components
 		{
 			urlBtn = newBtn();
 			urlBtn.y = 290;
-			urlBtn.x = 125;
+			urlBtn.x = 170;
 			urlBtn.width = 41;
 			urlBtn.height = 20;
 			urlBtn.label = "play";
+			urlBtn.addEventListener(MouseEvent.CLICK,btnClick);
 			return urlBtn;
+		}
+		
+		/**
+		 * 鼠标单击事件
+		 */
+		protected static function btnClick(e:MouseEvent):void
+		{
+			if(StringUtils.isEmpty(urlText.text)){
+				ConsoleComponent.log("Url is empty");
+				return;
+			}
+			nc.connect(urlText.text);
 		}
 		
 		/**
@@ -68,6 +103,16 @@ package com.cxria.video.components
 			stage.addChild(newUrlTextField());
 			stage.addChild(newUrlLabel());
 			stage.addChild(newUrlButton());
+			stage.addChild(newStreamTextField());
+		}
+		
+		/**
+		 * 设置NetConnection
+		 */
+		public static function setNetConnection(netc:NetConnection):void
+		{
+			ConsoleComponent.log("Set NetConnection");
+			nc = netc;
 		}
 	}
 }
