@@ -70,7 +70,7 @@ package
 		 * 处理NetStatusEvent事件
 		 */
 		private function onNetStatus(event:NetStatusEvent):void  
-		{  
+		{
 			ConsoleComponent.log(event.info.code);
 			ConsoleComponent.log(JSON.stringify(event.info));
 			trace("event.info.level: " + event.info.level + "\n", "event.info.code: " + event.info.code);
@@ -123,15 +123,42 @@ package
 		private function playStageVideo(nc:NetConnection,streamName:String):void {
 			ns = new NetStream(nc);
 			//定义空的方法
-			ns.client = {};
+			var customClient:Object = new Object();
+			customClient.onMetaData = onMetaData;
+			ns.client = customClient;
 			ns.addEventListener(NetStatusEvent.NET_STATUS, onStageVideoNetStatus);
 			sv = stage.stageVideos[0];
 			sv.attachNetStream(ns);
 			sv.viewPort = new Rectangle(-130,0,500,281);
 			ns.play(streamName);
+			
 			//监控
 			MonitorComponent.setNetStream(ns);
 			MonitorComponent.timer.start();
+		}
+		
+		private function onMetaData(infoObject:Object):void
+		{
+			var rw:Number = 0;
+			var rh:Number = 0;
+			
+			var sw:int = 500;
+			var sh:int = 282;
+			
+			var w:int = infoObject.width;
+			var h:int = infoObject.height;
+
+			if(w > h && w > sw){
+				rw = sw;
+				rh = sw / w * h;
+			}else if(h > w && h > sh){
+				rh = sh;
+				rw = sh / h * w;
+			}else{
+				rw = w;
+				rh = h;
+			}
+			sv.viewPort = new Rectangle(120 - rw / 2,0,rw,rh);                                   
 		}
 	}
 }

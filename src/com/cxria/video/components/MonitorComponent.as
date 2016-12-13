@@ -5,6 +5,7 @@ package com.cxria.video.components
 	
 	import flash.display.Stage;
 	import flash.events.TimerEvent;
+	import flash.media.StageVideo;
 	import flash.net.NetStream;
 	import flash.text.TextField;
 	import flash.utils.Timer;
@@ -14,6 +15,7 @@ package com.cxria.video.components
 		public static var timer:Timer;
 		public static var streamInfo:StreamInfo;
 		private static var ns:NetStream;
+		private static var sv:StageVideo;
 		
 		//label
 		public static var fpsLabel:TextField;
@@ -63,6 +65,7 @@ package com.cxria.video.components
 				droppedFramesLabel.text = "DroppedFrames: " + streamInfo.droppedFrames;
 				playbackBytesPerSecondLabel.text = "PlaybackBytesPerSecond: " + streamInfo.playbackBytesPerSecond.toFixed(0);
 				srttLabel.text = "Srtt: " + streamInfo.srtt;
+				
 			}
 		}
 		
