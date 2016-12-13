@@ -15,7 +15,6 @@ package
 	import flash.media.Video;
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
-	import flash.utils.Timer;
 	
 	//[SWF(backgroundColor="#000000")]
 	public class SimpleStageVideo extends Sprite
@@ -42,7 +41,7 @@ package
 		{
 			UrlComponent.load(stage);
 			ConsoleComponent.load(stage);
-			MonitorComponent.load();
+			MonitorComponent.load(stage);
 		}
 		
 		/**

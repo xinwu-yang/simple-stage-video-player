@@ -15,7 +15,10 @@ package com.cxria.video.util.date
 			var minutes:Number = nowdate.getMinutes();
 			var seconds:Number = nowdate.getSeconds();
 			//year + "-" + month + "-" + day + " " + 
-			return hour + ":" + minutes + ":" + seconds;
+			var hourStr:String = hour < 10 ? "0" + hour : hour + "";
+			var minutesStr:String = minutes < 10 ? "0" + minutes : minutes + "";
+			var secondsStr:String = seconds < 10 ? "0" + seconds : seconds + "";
+			return hourStr + ":" + minutesStr + ":" + secondsStr;
 		}
 	}
 }
