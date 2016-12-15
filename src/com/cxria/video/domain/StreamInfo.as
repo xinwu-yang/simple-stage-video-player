@@ -3,6 +3,7 @@ package com.cxria.video.domain
 	import com.cxria.video.components.ConsoleComponent;
 	
 	import flash.net.NetStream;
+	import flash.net.NetStreamInfo;
 
 	public class StreamInfo
 	{	
@@ -37,12 +38,14 @@ package com.cxria.video.domain
 				time = ns.time;
 				useHardwareDecoder = ns.useHardwareDecoder;
 				useJitterBuffer = ns.useJitterBuffer;
-				currentBytesPerSecond = ns.info.currentBytesPerSecond;
-				droppedFrames = ns.info.droppedFrames;
-				isLive = ns.info.isLive;
-				playbackBytesPerSecond = ns.info.playbackBytesPerSecond;
-				srtt = ns.info.SRTT;
-				
+				var nsi:NetStreamInfo = ns.info;
+				if(nsi != null){
+					isLive = nsi.isLive;
+					currentBytesPerSecond = nsi.currentBytesPerSecond;
+					droppedFrames = nsi.droppedFrames;
+					playbackBytesPerSecond = nsi.playbackBytesPerSecond;
+					srtt = nsi.SRTT;	
+				}
 				ConsoleComponent.log("useHardwareDecoder : " + useHardwareDecoder);
 				ConsoleComponent.log("useJitterBuffer : " + useJitterBuffer);
 				ConsoleComponent.log("isLive : " + isLive);
@@ -55,10 +58,13 @@ package com.cxria.video.domain
 				fps = ns.currentFPS;
 				delay = ns.liveDelay;
 				time = ns.time;
-				currentBytesPerSecond = ns.info.currentBytesPerSecond;
-				droppedFrames = ns.info.droppedFrames;
-				playbackBytesPerSecond = ns.info.playbackBytesPerSecond;
-				srtt = ns.info.SRTT;
+				var nsi:NetStreamInfo = ns.info;
+				if(nsi != null){
+					currentBytesPerSecond = nsi.currentBytesPerSecond;
+					droppedFrames = nsi.droppedFrames;
+					playbackBytesPerSecond = nsi.playbackBytesPerSecond;
+					srtt = nsi.SRTT;	
+				}
 			}
 		}
 	}

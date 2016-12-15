@@ -35,7 +35,7 @@ package com.cxria.video.components
 			urlText.width = 180;
 			urlText.x=-60;
 			urlText.y=290;
-			urlText.text = "rtmp://p.cxria.com/live";
+			urlText.text = "rtmp://192.168.1.29/live";
 			return urlText;
 		}
 		
@@ -111,7 +111,6 @@ package com.cxria.video.components
 		 */
 		public static function setNetConnection(netc:NetConnection):void
 		{
-			ConsoleComponent.log("Set NetConnection");
 			nc = netc;
 		}
 	}

@@ -24,9 +24,7 @@ package
 		
 		private var video:Video;
 		private var sv:StageVideo;
-		
-		private var url:String = "rtmp://p.cxria.com/live";
-		private var streamName:String = "123456";
+		private var on:Boolean;
 		
 		public function SimpleStageVideo()
 		{
@@ -54,7 +52,7 @@ package
 		
 		private function onStageVideoState(e:StageVideoAvailabilityEvent):void
 		{
-			var on:Boolean = e.availability == StageVideoAvailability.AVAILABLE;
+			on = e.availability == StageVideoAvailability.AVAILABLE;
 			ConsoleComponent.log("StageVideoAvailability : " + on);
 			nc = new NetConnection();
 			nc.client = {};
@@ -71,8 +69,6 @@ package
 		 */
 		private function onNetStatus(event:NetStatusEvent):void  
 		{
-			ConsoleComponent.log(event.info.code);
-			ConsoleComponent.log(JSON.stringify(event.info));
 			trace("event.info.level: " + event.info.level + "\n", "event.info.code: " + event.info.code);
 			var code:String = event.info.code.split(".")[2];
 			if(code == "Success"){
@@ -90,21 +86,25 @@ package
 		 */
 		private function playVideo(nc:NetConnection,streamName:String):void {
 			ns = new NetStream(nc);
-			//定义空的方法
-			ns.client = {};
+			var customClient:Object = new Object();
+			customClient.onMetaData = onMetaData;
+			ns.client = customClient;
 			ns.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
 			video = new Video();
 			video.attachNetStream(ns);
 			ns.play(streamName);
 			stage.addChild(video);
+			
+			//监控
+			MonitorComponent.setNetStream(ns);
+			MonitorComponent.timer.start();
 		}
 		
 		/**
 		 * 处理NetStatusEvent事件
 		 */
 		private function onStageVideoNetStatus(event:NetStatusEvent):void  
-		{  
-			ConsoleComponent.log(event.info.code);
+		{
 			trace("event.info.level: " + event.info.level + "\n", "event.info.code: " + event.info.code);
 			var code:String = event.info.code.split(".")[2];
 			if(code == "Success"){
@@ -122,7 +122,6 @@ package
 		 */
 		private function playStageVideo(nc:NetConnection,streamName:String):void {
 			ns = new NetStream(nc);
-			//定义空的方法
 			var customClient:Object = new Object();
 			customClient.onMetaData = onMetaData;
 			ns.client = customClient;
@@ -148,6 +147,9 @@ package
 			var w:int = infoObject.width;
 			var h:int = infoObject.height;
 
+			ConsoleComponent.log("Stream width :" + w);
+			ConsoleComponent.log("Stream height :" + h);
+
 			if(w > h && w > sw){
 				rw = sw;
 				rh = sw / w * h;
@@ -158,7 +160,14 @@ package
 				rw = w;
 				rh = h;
 			}
-			sv.viewPort = new Rectangle(120 - rw / 2,0,rw,rh);                                   
+			if(on){
+				sv.viewPort = new Rectangle(120 - rw / 2,0,rw,rh);                                   
+			}else{
+				video.x = 120 - rw / 2;
+				video.y = 0;
+				video.width = rw;
+				video.height = rh;
+			}
 		}
 	}
 }
