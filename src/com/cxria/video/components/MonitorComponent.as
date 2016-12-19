@@ -61,9 +61,9 @@ package com.cxria.video.components
 				fpsLabel.text = "FPS: " + streamInfo.fps.toFixed(2);
 				delayLabel.text = "Delay: " + streamInfo.delay;
 				timeLabel.text = "Time: " + streamInfo.time.toFixed(0);
-				currentBytesPerSecondLabel.text = "CurrentBytesPerSecond: " + streamInfo.currentBytesPerSecond.toFixed(0);
 				droppedFramesLabel.text = "DroppedFrames: " + streamInfo.droppedFrames;
-				playbackBytesPerSecondLabel.text = "PlaybackBytesPerSecond: " + streamInfo.playbackBytesPerSecond.toFixed(0);
+				currentBytesPerSecondLabel.text = "CurrentBytesPerSecond: " + (streamInfo.currentBytesPerSecond * 8 / 1024).toFixed(0) + "Kb";
+				playbackBytesPerSecondLabel.text = "PlaybackBytesPerSecond: " + (streamInfo.playbackBytesPerSecond * 8 / 1024).toFixed(0) + "Kb";
 				srttLabel.text = "Srtt: " + streamInfo.srtt;
 				
 			}
@@ -109,7 +109,7 @@ package com.cxria.video.components
 		{
 			currentBytesPerSecondLabel = newTextField();
 			currentBytesPerSecondLabel.height = 20;
-			currentBytesPerSecondLabel.width = 160;
+			currentBytesPerSecondLabel.width = 170;
 			currentBytesPerSecondLabel.y=354;
 			currentBytesPerSecondLabel.x=-60;
 			currentBytesPerSecondLabel.text = "CurrentBytesPerSecond:";
