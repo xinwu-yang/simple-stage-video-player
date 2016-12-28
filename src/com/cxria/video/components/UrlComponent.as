@@ -52,6 +52,7 @@ package com.cxria.video.components
 			streamText.width = 40;
 			streamText.x = 125;
 			streamText.y =290;
+			streamText.text = "123456";
 			return streamText;
 		}
 		

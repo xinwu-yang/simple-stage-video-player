@@ -1,6 +1,8 @@
 package
 {
+	import com.cxria.video.base.BaseUI;
 	import com.cxria.video.components.ConsoleComponent;
+	import com.cxria.video.components.ControlBarComponent;
 	import com.cxria.video.components.MonitorComponent;
 	import com.cxria.video.components.UrlComponent;
 	import com.cxria.video.util.str.StringUtils;
@@ -37,9 +39,11 @@ package
 		 */
 		public function loadComponents():void
 		{
+			BaseUI.setStyle();
 			UrlComponent.load(stage);
 			ConsoleComponent.load(stage);
 			MonitorComponent.load(stage);
+			ControlBarComponent.load(stage);
 		}
 		
 		/**
@@ -98,6 +102,9 @@ package
 			//监控
 			MonitorComponent.setNetStream(ns);
 			MonitorComponent.timer.start();
+			
+			//控制面板
+			ControlBarComponent.setNetStream(ns);
 		}
 		
 		/**
@@ -134,6 +141,9 @@ package
 			//监控
 			MonitorComponent.setNetStream(ns);
 			MonitorComponent.timer.start();
+			
+			//控制面板
+			ControlBarComponent.setNetStream(ns);
 		}
 		
 		private function onMetaData(infoObject:Object):void

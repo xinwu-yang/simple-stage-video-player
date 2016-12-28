@@ -4,6 +4,7 @@ package com.cxria.video.base
 	import flash.utils.Timer;
 	
 	import fl.controls.Button;
+	import fl.controls.ComboBox;
 	import fl.controls.TextArea;
 
 	public class BaseComponent
@@ -39,6 +40,14 @@ package com.cxria.video.base
 		public static function newTimer(time:Number):Timer
 		{
 			return new Timer(time);
+		}
+		
+		/**
+		 * 初始化下拉菜单
+		 */
+		public static function newComboBox():ComboBox
+		{
+			return new ComboBox();
 		}
 	}
 }
