@@ -1,6 +1,7 @@
 package com.cxria.video.components
 {
 	import com.cxria.video.base.BaseComponent;
+	import com.cxria.video.base.BaseUI;
 	import com.cxria.video.util.str.StringUtils;
 	
 	import flash.display.Stage;
@@ -23,6 +24,20 @@ package com.cxria.video.components
 		public static var nc:NetConnection;
 		
 		/**
+		 * 初始化输入框label
+		 */
+		private static function newUrlLabel():TextField
+		{
+			labelText = newTextField();
+			labelText.height = 20;
+			labelText.y=292;
+			labelText.x=-100;
+			labelText.text = "URL";
+			labelText.setTextFormat(BaseUI.textFormat);
+			return labelText;
+		}
+		
+		/**
 		 * 初始化url输入框 
 		 */
 		private static function newUrlTextField():TextField
@@ -31,11 +46,12 @@ package com.cxria.video.components
 			urlText.border = true; 
 			urlText.type = TextFieldType.INPUT;
 			urlText.restrict = null;
-			urlText.height = 20;
-			urlText.width = 180;
+			urlText.height = 12;
+			urlText.width = 130;
 			urlText.x=-60;
-			urlText.y=290;
+			urlText.y=292;
 			urlText.text = "rtmp://192.168.1.29/live";
+			urlText.setTextFormat(BaseUI.textFormat);
 			return urlText;
 		}
 		
@@ -48,25 +64,13 @@ package com.cxria.video.components
 			streamText.border = true; 
 			streamText.type = TextFieldType.INPUT;
 			streamText.restrict = null;
-			streamText.height = 20;
+			streamText.height = 12;
 			streamText.width = 40;
-			streamText.x = 125;
-			streamText.y =290;
+			streamText.x = 73;
+			streamText.y =292;
 			streamText.text = "123456";
+			streamText.setTextFormat(BaseUI.textFormat);
 			return streamText;
-		}
-		
-		/**
-		 * 初始化输入框label
-		 */
-		private static function newUrlLabel():TextField
-		{
-			labelText = newTextField();
-			labelText.height = 20;
-			labelText.y=292;
-			labelText.x=-130;
-			labelText.text = "RTMP地址 ：";
-			return labelText;
 		}
 		
 		/**
@@ -75,11 +79,12 @@ package com.cxria.video.components
 		private static function newUrlButton():Button
 		{
 			urlBtn = newBtn();
-			urlBtn.y = 290;
-			urlBtn.x = 170;
-			urlBtn.width = 41;
-			urlBtn.height = 20;
+			urlBtn.y = 291;
+			urlBtn.x = 116;
+			urlBtn.width = 29;
+			urlBtn.height = 14;
 			urlBtn.label = "play";
+			urlBtn.setStyle("textFormat",BaseUI.textFormat);
 			urlBtn.addEventListener(MouseEvent.CLICK,btnClick);
 			return urlBtn;
 		}

@@ -37,7 +37,7 @@ package
 		/**
 		 * 加载播放器相关组件
 		 */
-		public function loadComponents():void
+		private function loadComponents():void
 		{
 			BaseUI.setStyle();
 			UrlComponent.load(stage);
@@ -54,6 +54,9 @@ package
 			stage.addEventListener(StageVideoAvailabilityEvent.STAGE_VIDEO_AVAILABILITY,onStageVideoState);
 		}
 		
+		/**
+		 * 监听是否能启用硬件加速
+		 */
 		private function onStageVideoState(e:StageVideoAvailabilityEvent):void
 		{
 			on = e.availability == StageVideoAvailability.AVAILABLE;
@@ -101,8 +104,9 @@ package
 			
 			//监控
 			MonitorComponent.setNetStream(ns);
-			MonitorComponent.timer.start();
-			
+			if(MonitorComponent.timer != null){
+				MonitorComponent.timer.start();
+			}
 			//控制面板
 			ControlBarComponent.setNetStream(ns);
 		}
@@ -135,17 +139,22 @@ package
 			ns.addEventListener(NetStatusEvent.NET_STATUS, onStageVideoNetStatus);
 			sv = stage.stageVideos[0];
 			sv.attachNetStream(ns);
-			sv.viewPort = new Rectangle(-130,0,500,281);
+			sv.viewPort = new Rectangle(-130,0,stage.width,stage.height);
 			ns.play(streamName);
 			
 			//监控
 			MonitorComponent.setNetStream(ns);
-			MonitorComponent.timer.start();
+			if(MonitorComponent.timer != null){
+				MonitorComponent.timer.start();
+			}
 			
 			//控制面板
 			ControlBarComponent.setNetStream(ns);
 		}
 		
+		/**
+		 * 获取流的宽高,调整播放比例
+		 */
 		private function onMetaData(infoObject:Object):void
 		{
 			var rw:Number = 0;

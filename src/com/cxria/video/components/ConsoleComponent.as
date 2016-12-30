@@ -35,7 +35,9 @@ package com.cxria.video.components
 		
 		public static function log(log:String):void
 		{
-			console.text += DateUtils.now() + " - " + log + "\n";
+			if(console != null){
+				console.text += DateUtils.now() + " - " + log + "\n";
+			}
 		}
 		
 		public function ConsoleComponent()

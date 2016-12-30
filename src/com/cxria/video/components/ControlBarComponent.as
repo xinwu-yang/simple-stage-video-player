@@ -22,7 +22,7 @@ package com.cxria.video.components
 		public static var pauseBtn:Button;
 		public static var soundBtn:Button;//静音和开放按钮 
 		public static var modelBox:ComboBox;
-		//private var urlBtn:Button;
+		public static var stopBtn:Button;
 		//private var urlBtn:Button;
 		
 		private static function newPauseBtn():Button
@@ -73,6 +73,19 @@ package com.cxria.video.components
 			return modelBox;
 		}
 		
+		private static function newStopButton():Button
+		{
+			stopBtn = newBtn();
+			stopBtn.y = 250;
+			stopBtn.x = 90;
+			stopBtn.width = 29;
+			stopBtn.height = 18;
+			stopBtn.label = "stop";
+			stopBtn.addEventListener(MouseEvent.CLICK,stopClick);
+			stopBtn.setStyle("textFormat",BaseUI.textFormat);
+			return stopBtn;
+		}
+		
 		/**
 		 * 设置NetStream
 		 */
@@ -89,6 +102,7 @@ package com.cxria.video.components
 			stage.addChild(newPauseBtn());
 			stage.addChild(newSoundBtn());
 			stage.addChild(newModelComboBox());
+			stage.addChild(newStopButton());
 		}
 		
 		/**
@@ -124,5 +138,16 @@ package com.cxria.video.components
 		protected static function changeFun(e:Event):void {
 			ConsoleComponent.log(modelBox.selectedItem.label + " : " + modelBox.selectedItem.data);
 		}
+		
+		/**
+		 * 停止
+		 */
+		protected static function stopClick(e:MouseEvent):void
+		{
+			if(ns != null){
+				ns.close();
+				ConsoleComponent.log("NetStream Close");
+			}
+		} 
 	}
 }
