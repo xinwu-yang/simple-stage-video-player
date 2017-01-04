@@ -6,7 +6,9 @@ package com.cxria.video.components
 	
 	import flash.display.Stage;
 	import flash.events.MouseEvent;
+	import flash.events.NetStatusEvent;
 	import flash.net.NetConnection;
+	import flash.net.Responder;
 	import flash.text.TextField;
 	import flash.text.TextFieldType;
 	
@@ -21,7 +23,10 @@ package com.cxria.video.components
 		public static var streamText:TextField;
 		public static var labelText:TextField; 
 		public static var urlBtn:Button;
+		public static var callBtn:Button;
+		
 		public static var nc:NetConnection;
+		public static var serverNc:NetConnection;
 		
 		/**
 		 * 初始化输入框label
@@ -50,7 +55,7 @@ package com.cxria.video.components
 			urlText.width = 130;
 			urlText.x=-60;
 			urlText.y=292;
-			urlText.text = "rtmp://192.168.1.29/live";
+			urlText.text = "rtmp://192.168.1.29/server";
 			urlText.setTextFormat(BaseUI.textFormat);
 			return urlText;
 		}
@@ -90,6 +95,22 @@ package com.cxria.video.components
 		}
 		
 		/**
+		 * 连接服务器
+		 */
+		private static function newCallButton():Button
+		{
+			callBtn = newBtn();
+			callBtn.y = 291;
+			callBtn.x = 166;
+			callBtn.width = 29;
+			callBtn.height = 14;
+			callBtn.label = "call";
+			callBtn.setStyle("textFormat",BaseUI.textFormat);
+			callBtn.addEventListener(MouseEvent.CLICK,callClick);
+			return callBtn;
+		}
+		
+		/**
 		 * 鼠标单击事件
 		 */
 		protected static function btnClick(e:MouseEvent):void
@@ -98,9 +119,12 @@ package com.cxria.video.components
 				ConsoleComponent.log("Url is empty");
 				return;
 			}
+			if(nc.connected){
+				nc.close();
+			}
 			nc.connect(urlText.text);
 		}
-		
+
 		/**
 		 * 加载组件所有模块
 		 */
@@ -110,6 +134,18 @@ package com.cxria.video.components
 			stage.addChild(newUrlLabel());
 			stage.addChild(newUrlButton());
 			stage.addChild(newStreamTextField());
+			stage.addChild(newCallButton());
+		}
+		
+		/**
+		 * 隐藏所有组件
+		 */
+		public static function hide(stage:Stage):void
+		{
+			stage.removeChild(urlText);
+			stage.removeChild(labelText);
+			stage.removeChild(urlBtn);
+			stage.removeChild(streamText);
 		}
 		
 		/**
@@ -118,6 +154,45 @@ package com.cxria.video.components
 		public static function setNetConnection(netc:NetConnection):void
 		{
 			nc = netc;
+		}
+		
+		/**
+		 * 鼠标单击事件
+		 */
+		protected static function callClick(e:MouseEvent):void
+		{
+			if(serverNc != null && serverNc.connected){
+				call();
+			}else{
+				serverNc = new NetConnection();
+				serverNc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
+				serverNc.connect("rtmp://192.168.1.29/server");
+			}
+		}
+
+		/**
+		 * 处理NetStatusEvent事件
+		 */
+		private static function onNetStatus(event:NetStatusEvent):void  
+		{
+			trace("event.info.level: " + event.info.level + "\n", "event.info.code: " + event.info.code);
+			var code:String = event.info.code.split(".")[2];
+			if(code == "Success"){
+				call();
+			}
+		}
+		
+		/**
+		 * 调用服务器方法
+		 */
+		private static function call():void
+		{
+			serverNc.call("app/createStream",new Responder(function(result:Object):void 
+			{
+				ConsoleComponent.log("result: " + JSON.stringify(result));
+			},null),
+				{"name" : "123456"},{"src" : "1" , "format" : "mp4"}
+			);
 		}
 	}
 }

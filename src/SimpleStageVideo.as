@@ -1,5 +1,6 @@
 package
 {
+	import com.cxria.video.api.Api;
 	import com.cxria.video.base.BaseUI;
 	import com.cxria.video.components.ConsoleComponent;
 	import com.cxria.video.components.ControlBarComponent;
@@ -11,6 +12,7 @@ package
 	import flash.events.Event;
 	import flash.events.NetStatusEvent;
 	import flash.events.StageVideoAvailabilityEvent;
+	import flash.external.ExternalInterface;
 	import flash.geom.Rectangle;
 	import flash.media.StageVideo;
 	import flash.media.StageVideoAvailability;
@@ -21,19 +23,37 @@ package
 	//[SWF(backgroundColor="#000000")]
 	public class SimpleStageVideo extends Sprite
 	{
-		private var nc:NetConnection;
+		private var nc:NetConnection = new NetConnection();
 		private var ns:NetStream;
 		
 		private var video:Video;
 		private var sv:StageVideo;
 		private var on:Boolean;
 		
+		private var api:Api = new Api(nc);
+		
 		public function SimpleStageVideo()
 		{
 			loadComponents();
+			externalInterface();
 			addEventListener(Event.ADDED_TO_STAGE,onAddedToStage);
 		}
 		
+		/**
+		 * 暴露接口提供给js调用
+		 */
+		public function externalInterface():void
+		{
+			var on:Boolean = ExternalInterface.available;
+			ConsoleComponent.log("ExternalInterface.available : " + on);
+			if(on){
+				ExternalInterface.addCallback("pause",api.pause);
+				ExternalInterface.addCallback("stop",api.stop);
+				ExternalInterface.addCallback("changeSound",api.changeSound);
+				ExternalInterface.addCallback("play",api.play);
+			}
+		}
+
 		/**
 		 * 加载播放器相关组件
 		 */
@@ -61,7 +81,6 @@ package
 		{
 			on = e.availability == StageVideoAvailability.AVAILABLE;
 			ConsoleComponent.log("StageVideoAvailability : " + on);
-			nc = new NetConnection();
 			nc.client = {};
 			if(on){
 				nc.addEventListener(NetStatusEvent.NET_STATUS, onStageVideoNetStatus);
@@ -100,8 +119,7 @@ package
 			video = new Video();
 			video.attachNetStream(ns);
 			ns.play(streamName);
-			stage.addChild(video);
-			
+			stage.addChildAt(video,0);
 			//监控
 			MonitorComponent.setNetStream(ns);
 			if(MonitorComponent.timer != null){
@@ -141,13 +159,11 @@ package
 			sv.attachNetStream(ns);
 			sv.viewPort = new Rectangle(-130,0,stage.width,stage.height);
 			ns.play(streamName);
-			
 			//监控
 			MonitorComponent.setNetStream(ns);
 			if(MonitorComponent.timer != null){
 				MonitorComponent.timer.start();
 			}
-			
 			//控制面板
 			ControlBarComponent.setNetStream(ns);
 		}
@@ -157,6 +173,7 @@ package
 		 */
 		private function onMetaData(infoObject:Object):void
 		{
+			var baseX:Number = 120;
 			var rw:Number = 0;
 			var rh:Number = 0;
 			
@@ -180,9 +197,9 @@ package
 				rh = h;
 			}
 			if(on){
-				sv.viewPort = new Rectangle(120 - rw / 2,0,rw,rh);                                   
+				sv.viewPort = new Rectangle(baseX - rw / 2,0,rw,rh);                                   
 			}else{
-				video.x = 120 - rw / 2;
+				video.x = baseX - rw / 2;
 				video.y = 0;
 				video.width = rw;
 				video.height = rh;

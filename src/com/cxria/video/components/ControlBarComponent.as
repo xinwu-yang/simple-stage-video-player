@@ -69,7 +69,7 @@ package com.cxria.video.components
 			modelBox.addItem({label:"360°",data:"2"});
 			modelBox.addItem({label:"3D",data:"3"});
 			modelBox.addItem({label:"2D",data:"4"});
-			modelBox.addEventListener(Event.CHANGE,changeFun);
+			modelBox.addEventListener(Event.CHANGE,changeModel);
 			return modelBox;
 		}
 		
@@ -108,7 +108,7 @@ package com.cxria.video.components
 		/**
 		 * 暂停/继续
 		 */
-		protected static function pauseClick(e:MouseEvent):void
+		public static function pauseClick(e:MouseEvent):void
 		{
 			if(ns != null){
 				ns.togglePause();
@@ -118,7 +118,7 @@ package com.cxria.video.components
 		/**
 		 * 静音/关闭静音
 		 */
-		protected static function soundClick(e:MouseEvent):void
+		public static function soundClick(e:MouseEvent):void
 		{
 			if(ns != null){
 				if(ns.soundTransform.volume != 0){
@@ -133,16 +133,26 @@ package com.cxria.video.components
 		}
 		
 		/**
+		 * 设置音量大小
+		 */
+		public static function changeSound(vol:Number):void
+		{
+			if(ns != null){
+				ns.soundTransform = new SoundTransform(vol,0);
+			}
+		}
+		
+		/**
 		 * 切换模式
 		 */
-		protected static function changeFun(e:Event):void {
+		public static function changeModel(e:Event):void {
 			ConsoleComponent.log(modelBox.selectedItem.label + " : " + modelBox.selectedItem.data);
 		}
 		
 		/**
 		 * 停止
 		 */
-		protected static function stopClick(e:MouseEvent):void
+		public static function stopClick(e:MouseEvent):void
 		{
 			if(ns != null){
 				ns.close();
