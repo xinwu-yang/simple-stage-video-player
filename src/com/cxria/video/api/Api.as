@@ -4,6 +4,7 @@ package com.cxria.video.api
 	import com.cxria.video.components.UrlComponent;
 	
 	import flash.net.NetConnection;
+	import flash.net.Responder;
 
 	/**
 	 * 播放器提供的外部功能
@@ -42,7 +43,49 @@ package com.cxria.video.api
 		public function play(url:String,stream:String):void
 		{
 			UrlComponent.streamText.text = stream;
-			nc.connect(url);
+			if(nc != null){
+				nc.connect(url);
+			}
+		}
+		
+		/**
+		 * call AMS Server
+		 */
+		private function call(url:String,success:Function,fail:Function,...params):void
+		{
+			if(nc != null && nc.connected){
+				nc.call(url,new Responder(success,fail),params);
+			}
+		}
+		
+		/**
+		 * 循环播放
+		 * startTime default = -2; len default = -1
+		 */
+		public function loop(streamName:String,src:String,format:String,startTime:Number,len:Number):void
+		{
+			var stream:Object = {"name" : streamName};
+			var res:Object = {"src" : src , "format" : format};
+			var args:Object = {"startTime" : startTime ? startTime : -2 , "len" : len ? len : -1};
+			call("app/createStream",function(result:Object):void
+			{
+				trace(JSON.stringify(result));
+			},null,stream,res,args);
+		}
+		
+		/**
+		 * 关闭循环播放
+		 */
+		public function closeLoop(index:Number):String
+		{
+			if(index < 0){
+				return "error index";
+			}
+			call("app/closeStream",function(result:Object):void
+			{
+				trace(JSON.stringify(result));
+			},null,index);
+			return "success";
 		}
 		
 		public function Api(nc:NetConnection)

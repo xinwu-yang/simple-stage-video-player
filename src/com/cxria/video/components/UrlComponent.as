@@ -73,7 +73,7 @@ package com.cxria.video.components
 			streamText.width = 40;
 			streamText.x = 73;
 			streamText.y =292;
-			streamText.text = "123456";
+			streamText.text = "mp4:2.mp4";
 			streamText.setTextFormat(BaseUI.textFormat);
 			return streamText;
 		}
@@ -191,7 +191,7 @@ package com.cxria.video.components
 			{
 				ConsoleComponent.log("result: " + JSON.stringify(result));
 			},null),
-				{"name" : "123456"},{"src" : "1" , "format" : "mp4"}
+				{"name" : "2"},{"src" : "1" , "format" : "mp4"},{"startTime" : 900, "len" : 20}
 			);
 		}
 	}

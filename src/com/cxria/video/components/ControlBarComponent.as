@@ -23,7 +23,7 @@ package com.cxria.video.components
 		public static var soundBtn:Button;//静音和开放按钮 
 		public static var modelBox:ComboBox;
 		public static var stopBtn:Button;
-		//private var urlBtn:Button;
+		public static var seekBtn:Button;
 		
 		private static function newPauseBtn():Button
 		{
@@ -86,6 +86,19 @@ package com.cxria.video.components
 			return stopBtn;
 		}
 		
+		private static function newSeekButton():Button
+		{
+			seekBtn = newBtn();
+			seekBtn.y = 250;
+			seekBtn.x = 160;
+			seekBtn.width = 29;
+			seekBtn.height = 18;
+			seekBtn.label = "seek";
+			seekBtn.addEventListener(MouseEvent.CLICK,seekClick);
+			seekBtn.setStyle("textFormat",BaseUI.textFormat);
+			return seekBtn;
+		}
+		
 		/**
 		 * 设置NetStream
 		 */
@@ -103,6 +116,7 @@ package com.cxria.video.components
 			stage.addChild(newSoundBtn());
 			stage.addChild(newModelComboBox());
 			stage.addChild(newStopButton());
+			stage.addChild(newSeekButton());
 		}
 		
 		/**
@@ -157,6 +171,16 @@ package com.cxria.video.components
 			if(ns != null){
 				ns.close();
 				ConsoleComponent.log("NetStream Close");
+			}
+		} 
+		
+		/**
+		 * 停止
+		 */
+		public static function seekClick(e:MouseEvent):void
+		{
+			if(ns != null){
+				ns.seek(120);
 			}
 		} 
 	}

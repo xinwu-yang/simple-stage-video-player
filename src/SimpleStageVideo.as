@@ -51,6 +51,8 @@ package
 				ExternalInterface.addCallback("stop",api.stop);
 				ExternalInterface.addCallback("changeSound",api.changeSound);
 				ExternalInterface.addCallback("play",api.play);
+				ExternalInterface.addCallback("loop",api.loop);
+				ExternalInterface.addCallback("closeLoop",api.closeLoop);
 			}
 		}
 
