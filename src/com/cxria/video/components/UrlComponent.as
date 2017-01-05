@@ -36,7 +36,7 @@ package com.cxria.video.components
 			labelText = newTextField();
 			labelText.height = 20;
 			labelText.y=292;
-			labelText.x=-100;
+			labelText.x=-30;
 			labelText.text = "URL";
 			labelText.setTextFormat(BaseUI.textFormat);
 			return labelText;
@@ -53,8 +53,8 @@ package com.cxria.video.components
 			urlText.restrict = null;
 			urlText.height = 12;
 			urlText.width = 130;
-			urlText.x=-60;
 			urlText.y=292;
+			urlText.x=10;
 			urlText.text = "rtmp://192.168.1.29/server";
 			urlText.setTextFormat(BaseUI.textFormat);
 			return urlText;
@@ -71,8 +71,8 @@ package com.cxria.video.components
 			streamText.restrict = null;
 			streamText.height = 12;
 			streamText.width = 40;
-			streamText.x = 73;
 			streamText.y =292;
+			streamText.x = 143;
 			streamText.text = "mp4:2.mp4";
 			streamText.setTextFormat(BaseUI.textFormat);
 			return streamText;
@@ -85,7 +85,7 @@ package com.cxria.video.components
 		{
 			urlBtn = newBtn();
 			urlBtn.y = 291;
-			urlBtn.x = 116;
+			urlBtn.x = 186;
 			urlBtn.width = 29;
 			urlBtn.height = 14;
 			urlBtn.label = "play";
@@ -101,7 +101,7 @@ package com.cxria.video.components
 		{
 			callBtn = newBtn();
 			callBtn.y = 291;
-			callBtn.x = 166;
+			callBtn.x = 216;
 			callBtn.width = 29;
 			callBtn.height = 14;
 			callBtn.label = "call";
@@ -191,7 +191,7 @@ package com.cxria.video.components
 			{
 				ConsoleComponent.log("result: " + JSON.stringify(result));
 			},null),
-				{"name" : "2"},{"src" : "1" , "format" : "mp4"},{"startTime" : 900, "len" : 20}
+				{"name" : "2"},{"src" : "1" , "format" : "mp4"},{"startTime" : 850, "len" : 10}
 			);
 		}
 	}

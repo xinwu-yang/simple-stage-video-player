@@ -16,10 +16,10 @@ package com.cxria.video.components
 		private static function newConsole():TextArea
 		{
 			console = newTextarea();
-			console.x = 370;
+			console.x = 510;
 			console.y = 0;
-			console.width = 250;
-			console.height = 283;
+			console.width = 150;
+			console.height = 281;
 			console.text = "Console : \n";
 			console.editable = false;
 			var textFormat:TextFormat = new TextFormat();

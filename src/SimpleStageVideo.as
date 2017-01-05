@@ -9,6 +9,8 @@ package
 	import com.cxria.video.util.str.StringUtils;
 	
 	import flash.display.Sprite;
+	import flash.display.StageAlign;
+	import flash.display.StageQuality;
 	import flash.events.Event;
 	import flash.events.NetStatusEvent;
 	import flash.events.StageVideoAvailabilityEvent;
@@ -20,16 +22,15 @@ package
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
 	
-	//[SWF(backgroundColor="#000000")]
 	public class SimpleStageVideo extends Sprite
 	{
-		private var nc:NetConnection = new NetConnection();
 		private var ns:NetStream;
-		
 		private var video:Video;
 		private var sv:StageVideo;
 		private var on:Boolean;
-		
+		private var nc:NetConnection = new NetConnection();
+		private var server:String = "rtmp://192.168.1.29/server";
+		//播放器暴露的接口
 		private var api:Api = new Api(nc);
 		
 		public function SimpleStageVideo()
@@ -51,8 +52,9 @@ package
 				ExternalInterface.addCallback("stop",api.stop);
 				ExternalInterface.addCallback("changeSound",api.changeSound);
 				ExternalInterface.addCallback("play",api.play);
-				ExternalInterface.addCallback("loop",api.loop);
-				ExternalInterface.addCallback("closeLoop",api.closeLoop);
+				ExternalInterface.addCallback("createStream",api.createStream);
+				ExternalInterface.addCallback("closeStream",api.closeStream);
+				ExternalInterface.addCallback("loopOff",api.loopOff);
 			}
 		}
 
@@ -60,7 +62,7 @@ package
 		 * 加载播放器相关组件
 		 */
 		private function loadComponents():void
-		{
+		{	
 			BaseUI.setStyle();
 			UrlComponent.load(stage);
 			ConsoleComponent.load(stage);
@@ -73,6 +75,8 @@ package
 		 */
 		private function onAddedToStage(e:Event):void
 		{
+			stage.align = StageAlign.TOP_LEFT;
+			stage.quality = StageQuality.BEST;
 			stage.addEventListener(StageVideoAvailabilityEvent.STAGE_VIDEO_AVAILABILITY,onStageVideoState);
 		}
 		
@@ -90,6 +94,7 @@ package
 				nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
 			}
 			UrlComponent.setNetConnection(nc);
+			nc.connect(server);
 		}
 		
 		/**
@@ -139,6 +144,7 @@ package
 			trace("event.info.level: " + event.info.level + "\n", "event.info.code: " + event.info.code);
 			var code:String = event.info.code.split(".")[2];
 			if(code == "Success"){
+				ConsoleComponent.log("NetConnection : " + code);
 				var streamName:String = UrlComponent.streamText.text;
 				if(StringUtils.isEmpty(streamName)){
 					ConsoleComponent.log("StreamName is empty");
@@ -175,7 +181,7 @@ package
 		 */
 		private function onMetaData(infoObject:Object):void
 		{
-			var baseX:Number = 120;
+			var baseX:Number = 260;
 			var rw:Number = 0;
 			var rh:Number = 0;
 			

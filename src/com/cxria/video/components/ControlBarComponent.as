@@ -28,10 +28,10 @@ package com.cxria.video.components
 		private static function newPauseBtn():Button
 		{
 			pauseBtn = newBtn();
-			pauseBtn.y = 250;
-			pauseBtn.x = -60;
+			pauseBtn.y = 291;
+			pauseBtn.x = 246;
 			pauseBtn.width = 29;
-			pauseBtn.height = 18;
+			pauseBtn.height = 14;
 			pauseBtn.label = "pause";
 			pauseBtn.addEventListener(MouseEvent.CLICK,pauseClick);
 			pauseBtn.setStyle("textFormat",BaseUI.textFormat);
@@ -41,21 +41,47 @@ package com.cxria.video.components
 		private static function newSoundBtn():Button
 		{
 			soundBtn = newBtn();
-			soundBtn.y = 250;
-			soundBtn.x = -30;
+			soundBtn.y = 291;
+			soundBtn.x = 276;
 			soundBtn.width = 29;
-			soundBtn.height = 18;
+			soundBtn.height = 14;
 			soundBtn.label = "sound";
 			soundBtn.addEventListener(MouseEvent.CLICK,soundClick);
 			soundBtn.setStyle("textFormat",BaseUI.textFormat);
 			return soundBtn;
 		}
 		
+		private static function newStopButton():Button
+		{
+			stopBtn = newBtn();
+			stopBtn.y = 291;
+			stopBtn.x = 306;
+			stopBtn.width = 29;
+			stopBtn.height = 14;
+			stopBtn.label = "stop";
+			stopBtn.addEventListener(MouseEvent.CLICK,stopClick);
+			stopBtn.setStyle("textFormat",BaseUI.textFormat);
+			return stopBtn;
+		}
+		
+		private static function newSeekButton():Button
+		{
+			seekBtn = newBtn();
+			seekBtn.y = 291;
+			seekBtn.x = 336;
+			seekBtn.width = 29;
+			seekBtn.height = 14;
+			seekBtn.label = "seek";
+			seekBtn.addEventListener(MouseEvent.CLICK,seekClick);
+			seekBtn.setStyle("textFormat",BaseUI.textFormat);
+			return seekBtn;
+		}
+		
 		private static function newModelComboBox():ComboBox
 		{
 			modelBox = newComboBox();
-			modelBox.x = 20;
-			modelBox.y = 250;
+			modelBox.y = 291;
+			modelBox.x = 365;
 			modelBox.width = 53;
 			modelBox.height = 18;
 			modelBox.textField.setStyle("textFormat",BaseUI.textFormat);
@@ -73,32 +99,6 @@ package com.cxria.video.components
 			return modelBox;
 		}
 		
-		private static function newStopButton():Button
-		{
-			stopBtn = newBtn();
-			stopBtn.y = 250;
-			stopBtn.x = 90;
-			stopBtn.width = 29;
-			stopBtn.height = 18;
-			stopBtn.label = "stop";
-			stopBtn.addEventListener(MouseEvent.CLICK,stopClick);
-			stopBtn.setStyle("textFormat",BaseUI.textFormat);
-			return stopBtn;
-		}
-		
-		private static function newSeekButton():Button
-		{
-			seekBtn = newBtn();
-			seekBtn.y = 250;
-			seekBtn.x = 160;
-			seekBtn.width = 29;
-			seekBtn.height = 18;
-			seekBtn.label = "seek";
-			seekBtn.addEventListener(MouseEvent.CLICK,seekClick);
-			seekBtn.setStyle("textFormat",BaseUI.textFormat);
-			return seekBtn;
-		}
-		
 		/**
 		 * 设置NetStream
 		 */
@@ -114,9 +114,9 @@ package com.cxria.video.components
 		{
 			stage.addChild(newPauseBtn());
 			stage.addChild(newSoundBtn());
-			stage.addChild(newModelComboBox());
 			stage.addChild(newStopButton());
 			stage.addChild(newSeekButton());
+			//stage.addChild(newModelComboBox());
 		}
 		
 		/**

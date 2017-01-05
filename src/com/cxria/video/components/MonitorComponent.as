@@ -93,7 +93,7 @@ package com.cxria.video.components
 			fpsLabel = newTextField();
 			fpsLabel.height = 20;
 			fpsLabel.y=322;
-			fpsLabel.x=-90;
+			fpsLabel.x=-20;
 			fpsLabel.text = "FPS:";
 			fpsLabel.setTextFormat(BaseUI.textFormatMonitor);
 			return fpsLabel;
@@ -104,7 +104,7 @@ package com.cxria.video.components
 			delayLabel = newTextField();
 			delayLabel.height = 20;
 			delayLabel.y=354;
-			delayLabel.x=-90;
+			delayLabel.x=-20;
 			delayLabel.text = "Delay:";
 			delayLabel.setTextFormat(BaseUI.textFormatMonitor);
 			return delayLabel;
@@ -115,7 +115,7 @@ package com.cxria.video.components
 			timeLabel = newTextField();
 			timeLabel.height = 20;
 			timeLabel.y=322;
-			timeLabel.x=-40;
+			timeLabel.x=30;
 			timeLabel.text = "Time:";
 			timeLabel.setTextFormat(BaseUI.textFormatMonitor);
 			return timeLabel;
@@ -127,7 +127,7 @@ package com.cxria.video.components
 			currentBytesPerSecondLabel.height = 20;
 			currentBytesPerSecondLabel.width = 170;
 			currentBytesPerSecondLabel.y=354;
-			currentBytesPerSecondLabel.x=-20;
+			currentBytesPerSecondLabel.x=50;
 			currentBytesPerSecondLabel.text = "CurrentBytesPerSecond:";
 			currentBytesPerSecondLabel.setTextFormat(BaseUI.textFormatMonitor);
 			return currentBytesPerSecondLabel;
@@ -140,7 +140,7 @@ package com.cxria.video.components
 			droppedFramesLabel.height = 20;
 			droppedFramesLabel.width = 200;
 			droppedFramesLabel.y=322;
-			droppedFramesLabel.x=0;
+			droppedFramesLabel.x=70;
 			droppedFramesLabel.text = "DroppedFrames:";
 			droppedFramesLabel.setTextFormat(BaseUI.textFormatMonitor);
 			return droppedFramesLabel;
@@ -152,7 +152,7 @@ package com.cxria.video.components
 			playbackBytesPerSecondLabel.height = 20;
 			playbackBytesPerSecondLabel.width = 180;
 			playbackBytesPerSecondLabel.y=354;
-			playbackBytesPerSecondLabel.x=120;
+			playbackBytesPerSecondLabel.x=190;
 			playbackBytesPerSecondLabel.text = "PlaybackBytesPerSecond:";
 			playbackBytesPerSecondLabel.setTextFormat(BaseUI.textFormatMonitor);
 			return playbackBytesPerSecondLabel;
@@ -164,7 +164,7 @@ package com.cxria.video.components
 			srttLabel.height = 20;
 			srttLabel.width = 140;
 			srttLabel.y=322;
-			srttLabel.x=120;
+			srttLabel.x=190;
 			srttLabel.text = "Srtt:";
 			srttLabel.setTextFormat(BaseUI.textFormatMonitor);
 			return srttLabel;

@@ -42,18 +42,18 @@
             var xiSwfUrlStr = "playerProductInstall.swf";
             var flashvars = {};
             var params = {};
-            params.quality = "high";
-            params.bgcolor = "#ffffff";
+            params.quality = "best";
+            params.bgcolor = "#FFFFFF";
             params.allowscriptaccess = "sameDomain";
             params.allowfullscreen = "true";
             params.wmode = "gpu";
             var attributes = {};
             attributes.id = "SimpleStageVideo";
             attributes.name = "SimpleStageVideo";
-            attributes.align = "middle";
+            attributes.align = "left";
             swfobject.embedSWF(
                 "SimpleStageVideo.swf", "flashContent", 
-                "100%", "100%", 
+                "1600", "900", 
                 swfVersionStr, xiSwfUrlStr, 
                 flashvars, params, attributes);
             // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
@@ -76,34 +76,6 @@
                                 + pageHost + "www.adobe.com/images/shared/download_buttons/get_flash_player.gif' alt='Get Adobe Flash player' /></a>" ); 
             </script> 
         </div>
-        
-        <noscript>
-            <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%" id="SimpleStageVideo">
-                <param name="movie" value="SimpleStageVideo.swf" />
-                <param name="quality" value="high" />
-                <param name="bgcolor" value="#ffffff" />
-                <param name="allowScriptAccess" value="sameDomain" />
-                <param name="allowFullScreen" value="true" />
-                <!--[if !IE]>-->
-                <object type="application/x-shockwave-flash" data="SimpleStageVideo.swf" width="100%" height="100%">
-                    <param name="quality" value="high" />
-                    <param name="bgcolor" value="#ffffff" />
-                    <param name="allowScriptAccess" value="sameDomain" />
-                    <param name="allowFullScreen" value="true" />
-                <!--<![endif]-->
-                <!--[if gte IE 6]>-->
-                    <p> 
-                        Either scripts and active content are not permitted to run or Adobe Flash Player version
-                        11.4.0 or greater is not installed.
-                    </p>
-                <!--<![endif]-->
-                    <a href="http://www.adobe.com/go/getflashplayer">
-                        <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash Player" />
-                    </a>
-                <!--[if !IE]>-->
-                </object>
-                <!--<![endif]-->
-            </object>
-        </noscript>     
+           
    </body>
 </html>
