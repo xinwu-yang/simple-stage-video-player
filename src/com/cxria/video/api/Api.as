@@ -250,6 +250,7 @@ package com.cxria.video.api
 		private function onNetStatus(event:NetStatusEvent):void  
 		{
 			trace("event.info.level: " + event.info.level + "\n", "event.info.code: " + event.info.code);
+			ConsoleComponent.log(event.info.code);
 		}
 	}
 }

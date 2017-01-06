@@ -5,28 +5,21 @@ package com.cxria.video.domain
 	import flash.net.NetStream;
 	import flash.net.NetStreamInfo;
 
+	/**
+	 * 流信息
+	 */
 	public class StreamInfo
 	{	
 		public var fps:Number;
-		
 		public var delay:Number;
-		
 		public var time:Number;
-		
 		public var useHardwareDecoder:Boolean;
-		
 		public var useJitterBuffer:Boolean;
-		
 		public var currentBytesPerSecond:Number;
-		
 		public var droppedFrames:Number;
-		
 		public var isLive:Boolean;
-		
 		public var playbackBytesPerSecond:Number;
-		
 		public var srtt:Number;
-				
 		private var ns:NetStream;
 		
 		public function StreamInfo(ns:NetStream)
@@ -58,12 +51,20 @@ package com.cxria.video.domain
 				fps = ns.currentFPS;
 				delay = ns.liveDelay;
 				time = ns.time;
-				var nsi:NetStreamInfo = ns.info;
-				if(nsi != null){
-					currentBytesPerSecond = nsi.currentBytesPerSecond;
-					droppedFrames = nsi.droppedFrames;
-					playbackBytesPerSecond = nsi.playbackBytesPerSecond;
-					srtt = nsi.SRTT;	
+				var nsi:NetStreamInfo;
+				try
+				{
+					nsi = ns.info;
+					if(nsi != null){
+						currentBytesPerSecond = nsi.currentBytesPerSecond;
+						droppedFrames = nsi.droppedFrames;
+						playbackBytesPerSecond = nsi.playbackBytesPerSecond;
+						srtt = nsi.SRTT;	
+					}
+				} 
+				catch(error:Error) 
+				{
+					ConsoleComponent.log("NetStreamInfo Update Error : " + error.message);
 				}
 			}
 		}
