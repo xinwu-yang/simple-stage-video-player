@@ -1,5 +1,6 @@
 package com.cxria.video.components
 {
+	import com.cxria.video.base.AppConfig;
 	import com.cxria.video.base.BaseComponent;
 	import com.cxria.video.base.BaseUI;
 	import com.cxria.video.util.str.StringUtils;
@@ -55,7 +56,7 @@ package com.cxria.video.components
 			urlText.width = 130;
 			urlText.y=292;
 			urlText.x=10;
-			urlText.text = "rtmp://192.168.1.29/server";
+			urlText.text = AppConfig.SERVER_NAME;
 			urlText.setTextFormat(BaseUI.textFormat);
 			return urlText;
 		}
@@ -166,7 +167,7 @@ package com.cxria.video.components
 			}else{
 				serverNc = new NetConnection();
 				serverNc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
-				serverNc.connect("rtmp://192.168.1.29/server");
+				serverNc.connect(AppConfig.SERVER_NAME);
 			}
 		}
 
@@ -191,7 +192,7 @@ package com.cxria.video.components
 			{
 				ConsoleComponent.log("result: " + JSON.stringify(result));
 			},null),
-				{"name" : "2"},{"src" : "1" , "format" : "mp4"},{"startTime" : 850, "len" : 10}
+				{"name" : "xinwuy"},{"src" : "1" , "format" : "mp4"},{"startTime" : 910, "len" : 10}
 			);
 		}
 	}

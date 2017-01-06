@@ -1,6 +1,7 @@
 package
 {
 	import com.cxria.video.api.Api;
+	import com.cxria.video.base.AppConfig;
 	import com.cxria.video.base.BaseUI;
 	import com.cxria.video.components.ConsoleComponent;
 	import com.cxria.video.components.ControlBarComponent;
@@ -15,7 +16,6 @@ package
 	import flash.events.NetStatusEvent;
 	import flash.events.StageVideoAvailabilityEvent;
 	import flash.external.ExternalInterface;
-	import flash.geom.Rectangle;
 	import flash.media.StageVideo;
 	import flash.media.StageVideoAvailability;
 	import flash.media.Video;
@@ -27,11 +27,10 @@ package
 		private var ns:NetStream;
 		private var video:Video;
 		private var sv:StageVideo;
-		private var on:Boolean;
+		private var on:Boolean = false;
 		private var nc:NetConnection = new NetConnection();
-		private var server:String = "rtmp://192.168.1.29/server";
 		//播放器暴露的接口
-		private var api:Api = new Api(nc);
+		private var api:Api = new Api(nc,ns,video,sv,stage);
 		
 		public function SimpleStageVideo()
 		{
@@ -86,6 +85,7 @@ package
 		private function onStageVideoState(e:StageVideoAvailabilityEvent):void
 		{
 			on = e.availability == StageVideoAvailability.AVAILABLE;
+			api.setStageVideoON(on);
 			ConsoleComponent.log("StageVideoAvailability : " + on);
 			nc.client = {};
 			if(on){
@@ -94,7 +94,7 @@ package
 				nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
 			}
 			UrlComponent.setNetConnection(nc);
-			nc.connect(server);
+			nc.connect(AppConfig.SERVER_NAME);
 		}
 		
 		/**
@@ -110,34 +110,13 @@ package
 					ConsoleComponent.log("StreamName is empty");
 					return;
 				}
-				playVideo(nc,streamName);
+				api.playVideo(nc,streamName);
 			}
 		}
+
 		
 		/**
-		 * 播放视频
-		 */
-		private function playVideo(nc:NetConnection,streamName:String):void {
-			ns = new NetStream(nc);
-			var customClient:Object = new Object();
-			customClient.onMetaData = onMetaData;
-			ns.client = customClient;
-			ns.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
-			video = new Video();
-			video.attachNetStream(ns);
-			ns.play(streamName);
-			stage.addChildAt(video,0);
-			//监控
-			MonitorComponent.setNetStream(ns);
-			if(MonitorComponent.timer != null){
-				MonitorComponent.timer.start();
-			}
-			//控制面板
-			ControlBarComponent.setNetStream(ns);
-		}
-		
-		/**
-		 * 处理NetStatusEvent事件
+		 * 处理StageNetStatusEvent事件
 		 */
 		private function onStageVideoNetStatus(event:NetStatusEvent):void  
 		{
@@ -150,68 +129,9 @@ package
 					ConsoleComponent.log("StreamName is empty");
 					return;
 				}
-				playStageVideo(nc,streamName);
+				api.playStageVideo(nc,streamName);
 			}
 		}
-		
-		/**
-		 * 播放视频
-		 */
-		private function playStageVideo(nc:NetConnection,streamName:String):void {
-			ns = new NetStream(nc);
-			var customClient:Object = new Object();
-			customClient.onMetaData = onMetaData;
-			ns.client = customClient;
-			ns.addEventListener(NetStatusEvent.NET_STATUS, onStageVideoNetStatus);
-			sv = stage.stageVideos[0];
-			sv.attachNetStream(ns);
-			sv.viewPort = new Rectangle(-130,0,stage.width,stage.height);
-			ns.play(streamName);
-			//监控
-			MonitorComponent.setNetStream(ns);
-			if(MonitorComponent.timer != null){
-				MonitorComponent.timer.start();
-			}
-			//控制面板
-			ControlBarComponent.setNetStream(ns);
-		}
-		
-		/**
-		 * 获取流的宽高,调整播放比例
-		 */
-		private function onMetaData(infoObject:Object):void
-		{
-			var baseX:Number = 260;
-			var rw:Number = 0;
-			var rh:Number = 0;
-			
-			var sw:int = 500;
-			var sh:int = 282;
-			
-			var w:int = infoObject.width;
-			var h:int = infoObject.height;
 
-			ConsoleComponent.log("Stream width :" + w);
-			ConsoleComponent.log("Stream height :" + h);
-
-			if(w > h && w > sw){
-				rw = sw;
-				rh = sw / w * h;
-			}else if(h > w && h > sh){
-				rh = sh;
-				rw = sh / h * w;
-			}else{
-				rw = w;
-				rh = h;
-			}
-			if(on){
-				sv.viewPort = new Rectangle(baseX - rw / 2,0,rw,rh);                                   
-			}else{
-				video.x = baseX - rw / 2;
-				video.y = 0;
-				video.width = rw;
-				video.height = rh;
-			}
-		}
 	}
 }
