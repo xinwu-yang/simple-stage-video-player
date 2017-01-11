@@ -94,6 +94,7 @@ package
 				nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
 			}
 			UrlComponent.setNetConnection(nc);
+			nc.proxyType = "best";
 			nc.connect(AppConfig.SERVER_NAME);
 		}
 		
@@ -104,6 +105,7 @@ package
 		{
 			trace("event.info.level: " + event.info.level + "\n", "event.info.code: " + event.info.code);
 			var code:String = event.info.code.split(".")[2];
+			ConsoleComponent.log("NetConnection : " + code);
 			if(code == "Success"){
 				var streamName:String = UrlComponent.streamText.text;
 				if(StringUtils.isEmpty(streamName)){
@@ -114,7 +116,6 @@ package
 			}
 		}
 
-		
 		/**
 		 * 处理StageNetStatusEvent事件
 		 */
@@ -122,8 +123,8 @@ package
 		{
 			trace("event.info.level: " + event.info.level + "\n", "event.info.code: " + event.info.code);
 			var code:String = event.info.code.split(".")[2];
+			ConsoleComponent.log("NetConnection : " + code);
 			if(code == "Success"){
-				ConsoleComponent.log("NetConnection : " + code);
 				var streamName:String = UrlComponent.streamText.text;
 				if(StringUtils.isEmpty(streamName)){
 					ConsoleComponent.log("StreamName is empty");

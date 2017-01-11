@@ -35,6 +35,13 @@ package com.cxria.video.api
 			ControlBarComponent.pauseClick(null);
 		}
 		
+		public function seek(sec:Number):void
+		{
+			if(ns != null){
+				ns.seek(sec);
+			}
+		}
+		
 		/**
 		 * 设置音量
 		 * vol 音量大小 0-1之间

@@ -74,7 +74,7 @@ package com.cxria.video.components
 			streamText.width = 40;
 			streamText.y =292;
 			streamText.x = 143;
-			streamText.text = "mp4:2.mp4";
+			streamText.text = "mp4:1.mp4";
 			streamText.setTextFormat(BaseUI.textFormat);
 			return streamText;
 		}
