@@ -21,7 +21,7 @@ package com.cxria.video.components
 	public class UrlComponent extends BaseComponent
 	{
 		public static var urlText:TextField;
-		public static var streamText:TextField;
+		public static var streamText:TextField = newSTextField("");
 		public static var labelText:TextField; 
 		public static var urlBtn:Button;
 		public static var callBtn:Button;
@@ -105,7 +105,7 @@ package com.cxria.video.components
 			callBtn.x = 216;
 			callBtn.width = 29;
 			callBtn.height = 14;
-			callBtn.label = "call";
+			callBtn.label = "live";
 			callBtn.setStyle("textFormat",BaseUI.textFormat);
 			callBtn.addEventListener(MouseEvent.CLICK,callClick);
 			return callBtn;
@@ -147,6 +147,7 @@ package com.cxria.video.components
 			stage.removeChild(labelText);
 			stage.removeChild(urlBtn);
 			stage.removeChild(streamText);
+			stage.removeChild(callBtn);
 		}
 		
 		/**
@@ -188,11 +189,12 @@ package com.cxria.video.components
 		 */
 		private static function call():void
 		{
+			ConsoleComponent.log("params: 30,1020");
 			serverNc.call("app/createStream",new Responder(function(result:Object):void 
 			{
 				ConsoleComponent.log("result: " + JSON.stringify(result));
 			},null),
-				{"name" : "xinwuy"},{"src" : "1" , "format" : "mp4"},{"startTime" : 910, "len" : 10}
+				{"name" : "livestream"},{"src" : "1" , "format" : "mp4"},{"startTime" : 250, "len" : 20}
 			);
 		}
 	}

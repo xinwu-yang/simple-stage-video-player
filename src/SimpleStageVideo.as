@@ -2,10 +2,7 @@ package
 {
 	import com.cxria.video.api.Api;
 	import com.cxria.video.base.AppConfig;
-	import com.cxria.video.base.BaseUI;
 	import com.cxria.video.components.ConsoleComponent;
-	import com.cxria.video.components.ControlBarComponent;
-	import com.cxria.video.components.MonitorComponent;
 	import com.cxria.video.components.UrlComponent;
 	import com.cxria.video.util.str.StringUtils;
 	
@@ -22,6 +19,7 @@ package
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
 	
+	[SWF(backgroundColor="#111")]
 	public class SimpleStageVideo extends Sprite
 	{
 		private var ns:NetStream;
@@ -49,11 +47,13 @@ package
 			if(on){
 				ExternalInterface.addCallback("pause",api.pause);
 				ExternalInterface.addCallback("stop",api.stop);
+				ExternalInterface.addCallback("seek",api.seek);
 				ExternalInterface.addCallback("changeSound",api.changeSound);
 				ExternalInterface.addCallback("play",api.play);
 				ExternalInterface.addCallback("createStream",api.createStream);
 				ExternalInterface.addCallback("closeStream",api.closeStream);
 				ExternalInterface.addCallback("loopOff",api.loopOff);
+				ExternalInterface.addCallback("setWH",api.setWH);
 			}
 		}
 
@@ -62,11 +62,12 @@ package
 		 */
 		private function loadComponents():void
 		{	
-			BaseUI.setStyle();
-			UrlComponent.load(stage);
-			ConsoleComponent.load(stage);
-			MonitorComponent.load(stage);
-			ControlBarComponent.load(stage);
+			//BaseUI.setStyle();
+			//UrlComponent.load(stage);
+			//UrlComponent.hide(stage);
+			//ConsoleComponent.load(stage);
+			//MonitorComponent.load(stage);
+			//ControlBarComponent.load(stage);
 		}
 		
 		/**

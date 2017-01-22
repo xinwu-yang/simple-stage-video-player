@@ -1,5 +1,6 @@
 package com.cxria.video.api
 {
+	import com.cxria.video.base.AppConfig;
 	import com.cxria.video.components.ConsoleComponent;
 	import com.cxria.video.components.ControlBarComponent;
 	import com.cxria.video.components.MonitorComponent;
@@ -35,6 +36,9 @@ package com.cxria.video.api
 			ControlBarComponent.pauseClick(null);
 		}
 		
+		/**
+		 * seek
+		 */
 		public function seek(sec:Number):void
 		{
 			if(ns != null){
@@ -89,6 +93,7 @@ package com.cxria.video.api
 		 */
 		public function createStream(streamName:String,src:String,format:String,startTime:Number,len:Number):void
 		{
+			ConsoleComponent.log("createStream : startTime : " + startTime + ",len : " +len);
 			var stream:Object = {"name" : streamName};
 			var res:Object = {"src" : src , "format" : format};
 			var args:Object = {"startTime" : startTime ? startTime : -2 , "len" : len ? len : -1};
@@ -99,7 +104,7 @@ package com.cxria.video.api
 						ConsoleComponent.log(JSON.stringify(result));
 						if(result.b == 1){
 							//回传给JS下标
-							ExternalInterface.call("VrPlayer.getStreamIndex",result.o.index);
+							ExternalInterface.call("getStreamIndex",result.o.index);
 						}
 					},
 					function(result:Object):void
@@ -155,6 +160,22 @@ package com.cxria.video.api
 			return "success";
 		}
 		
+		public function setWH(x:Number,y:Number,w:Number,h:Number):void
+		{
+			if(on){
+				if(sv != null){
+					sv.viewPort = new Rectangle(x,y,w,h);
+				}
+			}else{
+				if(video != null){
+					video.x = x;
+					video.y = y;
+					video.width = w;
+					video.height = h;
+				}
+			}
+		}
+		
 		public function Api(nc:NetConnection,ns:NetStream,video:Video,sv:StageVideo,stage:Stage)
 		{
 			this.nc = nc;
@@ -179,6 +200,8 @@ package com.cxria.video.api
 			ns.client = customClient;
 			ns.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
 			video = new Video();
+			video.width = AppConfig.WIDTH;
+			video.height = AppConfig.HEIGHT;
 			video.attachNetStream(ns);
 			ns.play(streamName);
 			stage.addChildAt(video,0);
@@ -202,7 +225,7 @@ package com.cxria.video.api
 			ns.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
 			sv = stage.stageVideos[0];
 			sv.attachNetStream(ns);
-			sv.viewPort = new Rectangle(-130,0,stage.width,stage.height);
+			sv.viewPort = new Rectangle(0,0,AppConfig.WIDTH,AppConfig.HEIGHT);
 			ns.play(streamName);
 			//监控
 			MonitorComponent.setNetStream(ns);
@@ -217,37 +240,36 @@ package com.cxria.video.api
 		 * 获取流的宽高,调整播放比例
 		 */
 		private function onMetaData(infoObject:Object):void
-		{
-			var baseX:Number = 260;
-			var rw:Number = 0;
-			var rh:Number = 0;
-			
-			var sw:int = 500;
-			var sh:int = 282;
-			
+		{			
+			var sw:int = 1280;
+			var sh:int = 720;
 			var w:int = infoObject.width;
-			var h:int = infoObject.height;
-			
+			var h:int = infoObject.height;	
+			var z:Number = w / h;
 			ConsoleComponent.log("Stream width :" + w);
 			ConsoleComponent.log("Stream height :" + h);
-			
-			if(w > h && w > sw){
-				rw = sw;
-				rh = sw / w * h;
-			}else if(h > w && h > sh){
-				rh = sh;
-				rw = sh / h * w;
+			var x:int = 0,y:int = 0;
+			if(w < sw){
+				x = (sw - w) / 2;
 			}else{
-				rw = w;
-				rh = h;
+				w = 1280;				
+			}
+			if(h < sw){
+				y = (sh -h) / 2;
+			}else if(h > sw && w < sw){
+				h = 720;
+				w = h * z;
+				x = (sw - w) / 2;
+			}else if(h > sw && w >= sw){
+				h = w / z;
 			}
 			if(on){
-				sv.viewPort = new Rectangle(baseX - rw / 2,0,rw,rh);                                   
+				sv.viewPort = new Rectangle(x,y,w,h);                                   
 			}else{
-				video.x = baseX - rw / 2;
-				video.y = 0;
-				video.width = rw;
-				video.height = rh;
+				video.x = x;
+				video.y = y;
+				video.width = w;
+				video.height = h;
 			}
 		}
 		

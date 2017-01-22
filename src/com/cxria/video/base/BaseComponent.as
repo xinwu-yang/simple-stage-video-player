@@ -19,6 +19,16 @@ package com.cxria.video.base
 		}
 		
 		/**
+		 * 实例化TextField
+		 */
+		public static function newSTextField(stream:String):TextField
+		{
+			var streamText:TextField = new TextField(); 
+			streamText.text = stream;
+			return streamText;
+		}
+		
+		/**
 		 * 实例化Button
 		 */
 		public static function newBtn():Button
