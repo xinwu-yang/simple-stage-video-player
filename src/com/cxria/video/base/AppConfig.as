@@ -5,7 +5,8 @@ package com.cxria.video.base
 	 */
 	public class AppConfig
 	{
-		public static var SERVER_NAME:String = "rtmp://192.168.1.29/server";
+		//直播相关URL配置
+		public static var SERVER_NAME:String = "rtmps://woxspace.local.cxria.com:1443/server";
 		public static var WIDTH:Number = 1280;
 		public static var HEIGHT:Number = 720;
 	}

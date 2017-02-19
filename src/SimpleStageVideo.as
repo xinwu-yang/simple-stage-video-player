@@ -1,14 +1,19 @@
 package
 {
 	import com.cxria.video.api.Api;
+	import com.cxria.video.api.nc.NcClient;
 	import com.cxria.video.base.AppConfig;
+	import com.cxria.video.base.BaseUI;
 	import com.cxria.video.components.ConsoleComponent;
+	import com.cxria.video.components.ControlBarComponent;
+	import com.cxria.video.components.MonitorComponent;
 	import com.cxria.video.components.UrlComponent;
 	import com.cxria.video.util.str.StringUtils;
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageQuality;
+	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.NetStatusEvent;
 	import flash.events.StageVideoAvailabilityEvent;
@@ -27,6 +32,7 @@ package
 		private var sv:StageVideo;
 		private var on:Boolean = false;
 		private var nc:NetConnection = new NetConnection();
+		private var ncClient:NcClient = new NcClient();
 		//播放器暴露的接口
 		private var api:Api = new Api(nc,ns,video,sv,stage);
 		
@@ -62,12 +68,12 @@ package
 		 */
 		private function loadComponents():void
 		{	
-			//BaseUI.setStyle();
-			//UrlComponent.load(stage);
-			//UrlComponent.hide(stage);
-			//ConsoleComponent.load(stage);
-			//MonitorComponent.load(stage);
-			//ControlBarComponent.load(stage);
+			BaseUI.setStyle();
+//			UrlComponent.load(stage);
+//			UrlComponent.hide(stage);
+//			ConsoleComponent.load(stage);
+//			MonitorComponent.load(stage);
+//			ControlBarComponent.load(stage);
 		}
 		
 		/**
@@ -77,6 +83,7 @@ package
 		{
 			stage.align = StageAlign.TOP_LEFT;
 			stage.quality = StageQuality.BEST;
+			stage.scaleMode = StageScaleMode.NO_BORDER;
 			stage.addEventListener(StageVideoAvailabilityEvent.STAGE_VIDEO_AVAILABILITY,onStageVideoState);
 		}
 		
@@ -88,7 +95,7 @@ package
 			on = e.availability == StageVideoAvailability.AVAILABLE;
 			api.setStageVideoON(on);
 			ConsoleComponent.log("StageVideoAvailability : " + on);
-			nc.client = {};
+			nc.client = ncClient;
 			if(on){
 				nc.addEventListener(NetStatusEvent.NET_STATUS, onStageVideoNetStatus);
 			}else{

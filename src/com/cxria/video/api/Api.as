@@ -226,6 +226,7 @@ package com.cxria.video.api
 			sv = stage.stageVideos[0];
 			sv.attachNetStream(ns);
 			sv.viewPort = new Rectangle(0,0,AppConfig.WIDTH,AppConfig.HEIGHT);
+			ns.bufferTime = 0;
 			ns.play(streamName);
 			//监控
 			MonitorComponent.setNetStream(ns);

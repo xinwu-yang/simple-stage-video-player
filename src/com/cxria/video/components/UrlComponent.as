@@ -20,6 +20,7 @@ package com.cxria.video.components
 	 */
 	public class UrlComponent extends BaseComponent
 	{
+		//mp4:2017-02-06-11-02-22-365978c.mp4
 		public static var urlText:TextField;
 		public static var streamText:TextField = newSTextField("");
 		public static var labelText:TextField; 
@@ -74,7 +75,7 @@ package com.cxria.video.components
 			streamText.width = 40;
 			streamText.y =292;
 			streamText.x = 143;
-			streamText.text = "mp4:1.mp4";
+			streamText.text = "mp4:h3d.mp4";
 			streamText.setTextFormat(BaseUI.textFormat);
 			return streamText;
 		}
